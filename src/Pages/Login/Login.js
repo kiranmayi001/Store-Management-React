@@ -21,8 +21,10 @@ export default function Login(props) {
             return setError('credentials invalid');
         if(username==='test-admin')
             props.history.push('/dashboard/admin');
-        else if(username==='test-sales')
+        else if(username==='test-sales') {
+            localStorage.setItem('loggedIn', JSON.stringify({ username: username, role: 'exec'}));
             props.history.push('/dashboard/executive');
+        }
         else setError('user unauthorized');
     };
 

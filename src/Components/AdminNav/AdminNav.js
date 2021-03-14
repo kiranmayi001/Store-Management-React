@@ -1,6 +1,6 @@
 import React from 'react'
 
-function ExecNav(props) {
+function AdminNav(props) {
 
     const {
         showInventory, 
@@ -23,4 +23,4 @@ function ExecNav(props) {
     )
 }
 
-export default ExecNav;
+export default AdminNav;
