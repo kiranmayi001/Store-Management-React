@@ -1,28 +1,37 @@
-import React, { Fragment, useEffect, useState} from 'react';
-import ordersData from '../../data/orders';
+import React, { useEffect, useState} from 'react';
+import { Link } from 'react-router-dom';
+import './Order.css';
 
 function Order(props) {
-    const [order, setOrder] = useState(null);
+    const [order, setOrder] = useState({
+        customerName: '',
+        contactNumber: '',
+        totalAmt: 0
+    });
     
     useEffect(() => {
         const orderId = props.match.params.orderId;
         if(!orderId) return;
-        const currentOrder = ordersData.filter(order => order.id==orderId);
-        setOrder(currentOrder);
-    }, [])
+        const prevOrders = JSON.parse(localStorage.getItem('orders'));
+        if(!prevOrders) return;
+        const currentOrder = prevOrders.filter(order => order.id==orderId);
+        console.log(currentOrder[0]);
+        setOrder(currentOrder[0]);
+    }, [order.totalAmt])
 
     return (
         <div>
-        {order &&
-        <Fragment>
             {/* Regular fields */}
         <div>
 
-            <table>
-                <tr>
-                    <th>Field</th>
-                    <th>Value</th>
-                </tr>
+            <table className="order-page-table">
+                <thead>
+                    <tr>
+                        <th>Field</th>
+                        <th>Value</th>
+                    </tr>
+                </thead>
+                <tbody>
                 <tr>
                   <td>Customer Name</td>
                   <td>{order.customerName}</td>  
@@ -35,12 +44,12 @@ function Order(props) {
                   <td>Total Amt</td>
                   <td>{order.totalAmt}</td>  
                 </tr>
-                
+                </tbody>
             </table>
         </div>
         {/* Products  Table */}
         <div>
-            <table>
+            <table className="order-page-table">
                 <thead>
                 <tr>
                     <th>Product Id</th>
@@ -61,7 +70,7 @@ function Order(props) {
                 </tbody>
             </table>
         </div>
-        </Fragment>}
+            <Link to="/dashboard/executive">Back</Link>
         </div>  
        
     )
